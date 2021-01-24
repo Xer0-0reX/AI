@@ -219,15 +219,90 @@ hijo(hiphop,voldemort).
 hijo(hiphop,reggae).
 
 
-madre(X,Y):-mujer(X),hijo(Y,X).
-padre(A,B):-hombre(A),hijo(B,A).
-hermana(X,Y):-mujer(X),hijo(Y,W),hijo(X,W),X\=Y.
-hermano(X,Y):-hombre(X),hijo(Y,W),hijo(X,W),X\=Y.
-hermanx(X,Y):-hijo(Y,W),hijo(X,W),X\=Y.
-abuelo(X,Y):-hombre(X),hijo(Z,X),hijo(Y,Z).
-abuela(X,Y):-mujer(X),hijo(Z,X),hijo(Y,Z).
-suegra(C,D):-mujer(C),hijo(Z,D),hijo(Z,E),madre(C,E),D\=E.
-suegro(C,D):-hombre(C),hijo(Z,D),hijo(Z,E),padre(C,E),D\=E.
-nuera(X,Y):-mujer(X),hijo(Z,Y),hijo(A,Z),madre(X,A).
-tio(X,Y):-hombre(X),hijo(Y,Z),hermano(X,Z).
-primo(X,Y):-hombre(X),hijo(Y,Z),hermanx(A,Z),hijo(X,A).
+%la primera variable de cada regla es la correspondiente al
+%nombre de la regla
+
+madre(X,Y):-mujer(X),
+    hijo(Y,X).
+padre(A,B):-hombre(A),
+    hijo(B,A).
+hermana(X,Y):-mujer(X),
+    hijo(Y,W),
+    hijo(X,W),
+    X\=Y.
+hermano(X,Y):-hombre(X),
+    hijo(Y,W),
+    hijo(X,W),
+    X\=Y.
+hermanx(X,Y):-hijo(Y,W),
+    hijo(X,W),
+    X\=Y.
+abuelo(X,Y):-hombre(X),
+    hijo(Z,X),
+    hijo(Y,Z).
+abuela(X,Y):-mujer(X),
+    hijo(Z,X),
+    hijo(Y,Z).
+tatarabuelo(X,Y):-hombre(X),
+    hijo(Z,X),
+    hijo(A,Z),
+    hijo(B,A),
+    hijo(Y,B).
+tatarabuela(X,Y):-mujer(X),
+    hijo(Z,X),
+    hijo(A,Z),
+    hijo(B,A),
+    hijo(Y,B).
+suegra(C,D):-mujer(C),
+    hijo(Z,D),
+    hijo(Z,E),
+    madre(C,E),
+    D\=E.
+suegro(C,D):-hombre(C),
+    hijo(Z,D),
+    hijo(Z,E),
+    padre(C,E),
+    D\=E.
+nuera(X,Y):-mujer(X),
+    hijo(Z,Y),
+    hijo(A,Z),
+    madre(X,A).
+tio(X,Y):-hombre(X),
+    hijo(Y,Z),
+    hermano(X,Z).
+primo(X,Y):-hombre(X),
+    hijo(Y,Z),
+    hermanx(A,Z),
+    hijo(X,A).
+%como su nombre lo indica, solteros es para escribir todos
+% los solteros, mientras que soltero solo es para confirmar
+% si alguien es soltero
+solteros(X):-
+	hombre(X),
+	not(hijo(_,X)),
+        write(X),nl,
+        fail;
+	mujer(X),
+	not(hijo(_,X)),
+        write(X),nl,
+        fail.
+solteros(_):-
+    true.
+soltero(X):-
+    not(hijo(_,X)).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
