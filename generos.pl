@@ -221,16 +221,13 @@ hijo(hiphop,reggae).
 
 madre(X,Y):-mujer(X),hijo(Y,X).
 padre(A,B):-hombre(A),hijo(B,A).
-hermana(X,Y):-mujer(X),hijo(Y,W),hijo(X,W).
-hermano(X,Y):-hombre(X),hijo(Y,W),hijo(X,W).
+hermana(X,Y):-mujer(X),hijo(Y,W),hijo(X,W),X\=Y.
+hermano(X,Y):-hombre(X),hijo(Y,W),hijo(X,W),X\=Y.
+hermanx(X,Y):-hijo(Y,W),hijo(X,W),X\=Y.
 abuelo(X,Y):-hombre(X),hijo(Z,X),hijo(Y,Z).
 abuela(X,Y):-mujer(X),hijo(Z,X),hijo(Y,Z).
-%Tanto suegroH como suegraH son usados para el esposo de la relacion, para asi evitar que por alguna situacion nos muestre como suegro al madre del esposo
-%y por el otro lado, suegroM y suegraM son para la esposa.
-suegraH(C,D):-mujer(C),hijo(Z,D),madre(E,Z),madre(C,E).
-suegroH(C,D):-hombre(C),hijo(Z,D),madre(E,Z),padre(C,E).
-suegraM(C,D):-mujer(C),hijo(Z,D),padre(E,Z),madre(C,E).
-suegroM(C,D):-hombre(C),hijo(Z,D),padre(E,Z),padre(C,E).
+suegra(C,D):-mujer(C),hijo(Z,D),hijo(Z,E),madre(C,E),D\=E.
+suegro(C,D):-hombre(C),hijo(Z,D),hijo(Z,E),padre(C,E),D\=E.
 nuera(X,Y):-mujer(X),hijo(Z,Y),hijo(A,Z),madre(X,A).
 tio(X,Y):-hombre(X),hijo(Y,Z),hermano(X,Z).
-primo(X,Y):-hombre(X),hijo(Y,Z),hijo(Z,A),hijo(B,A),hijo(X,B).
+primo(X,Y):-hombre(X),hijo(Y,Z),hermanx(A,Z),hijo(X,A).
