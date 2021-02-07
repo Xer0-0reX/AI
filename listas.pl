@@ -14,3 +14,10 @@ rango(I,K,[I|L]):-
 	I1 is I + 1,
 	rango(I1,K,L).
 
+
+ultimo(X,Y):-
+	append(Y,X,R).
+	
+ultimo2(X,Y,L):-
+	L=[Y|X].
+	
